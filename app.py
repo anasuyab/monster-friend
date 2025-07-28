@@ -14,7 +14,7 @@ console = Console()
 stt = whisper.load_model("base.en")
 
 # Parse command line arguments
-parser = argparse.ArgumentParser(description="Ana's Monster Friend")
+parser = argparse.ArgumentParser(description="Improviser Partner Program")
 parser.add_argument("--voice", type=str, help="Path to voice sample for cloning")
 parser.add_argument("--exaggeration", type=float, default=0.5, help="Emotion exaggeration (0.0-1.0)")
 parser.add_argument("--cfg-weight", type=float, default=0.5, help="CFG weight for pacing (0.0-1.0)")
@@ -36,7 +36,7 @@ def get_session_history_messages(session_id: str) -> list:
     """Get or create chat history for a session as a list of message dicts."""
     SYSTEM_PROMPT = "You are an improviser" \
     "You are polite, respectful, and aim to provide concise responses of less than 20 words." \
-    "You are Ana's monster friend. You are a monster and you are a friend."
+    "You are an improv partner. You are playing a game of improv with the user." \
     
     if session_id not in chat_sessions:
         # Initialize with the system message
@@ -86,7 +86,7 @@ def get_llm_response(text: str) -> str:
     Generates a response to the given text using Ollama via the OpenAI SDK.
     Manually manages chat history.
     """
-    session_id = "monster_friend_session"
+    session_id = "improviser_session"
 
     # Get current session history
     messages = get_session_history_messages(session_id)
@@ -150,7 +150,7 @@ def analyze_emotion(text: str) -> float:
     return min(0.9, max(0.3, emotion_score))
 
 if __name__ == "__main__":
-    console.print("[cyan]🤖 Local Voice Assistant with ChatterBox TTS")
+    console.print("[cyan]🤖 Local Improviser Partner Program")
     console.print("[cyan]━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 
     if args.voice:
@@ -232,4 +232,4 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         console.print("\n[red]Exiting...")
 
-    console.print("[blue]Session ended. Thank you for using ChatterBox Voice Assistant!")
+    console.print("[blue]Session ended. Thank you for being my improv partner!")
