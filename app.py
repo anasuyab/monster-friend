@@ -8,7 +8,9 @@ import numpy as np
 from queue import Queue
 import time
 from tts import TextToSpeechService
-from agent import ImproviserAgent
+from improviseragent import ImproviserAgent
+import asyncio
+
 
 console = Console()
 stt = whisper.load_model("base.en")
@@ -96,7 +98,7 @@ def analyze_emotion(text: str) -> float:
     # Cap between 0.3 and 0.9
     return min(0.9, max(0.3, emotion_score))
 
-if __name__ == "__main__":
+async def main():
     console.print("[cyan]🤖 Local Improviser Partner Program")
     console.print("[cyan]━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 
@@ -144,8 +146,8 @@ if __name__ == "__main__":
                     text = transcribe(audio_np)
                 console.print(f"[yellow]You: {text}")
 
-                with console.status("Generating response...", spinner="dots"):
-                    response = improviser_agent.generate_response(text)
+                with console.status("Generating response by playing a game...", spinner="dots"):
+                    response = await improviser_agent.play_game(text)
 
                     # Analyze emotion and adjust exaggeration dynamically
                     dynamic_exaggeration = analyze_emotion(response)
@@ -180,3 +182,6 @@ if __name__ == "__main__":
         console.print("\n[red]Exiting...")
 
     console.print("[blue]Session ended. Thank you for being my improv partner!")
+
+if __name__ == "__main__":
+    asyncio.run(main())
